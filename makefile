@@ -1,6 +1,9 @@
 # Makefile for scalable YOLO pipeline
 
-.PHONY: prepare-data convert merge augment train evaluate download-images
+.PHONY: install prepare-data convert merge augment train evaluate download-images sync-labels
+
+install:
+	pip install -r requirements.txt
 
 prepare-data: convert augment
 
@@ -40,3 +43,9 @@ download-images:
 	python3 src/data_processing/download_images.py \
 		--config configs/variants.yaml \
 		--output-dir data/processed/images
+
+sync-labels:
+	rsync -avz -e "ssh -p 46540" data/processed/labels/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/labels/
+
+sync-images:
+	rsync -avz -e "ssh -p 46540" data/processed/images/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/images/
