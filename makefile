@@ -1,6 +1,13 @@
 # Makefile for scalable YOLO pipeline
 
-.PHONY: install prepare-data convert merge augment train evaluate download-images sync-labels
+.PHONY: install prepare-data convert merge augment train evaluate visualize download-images sync-labels quality-control
+
+VISUALIZE_MODEL ?= models/yolo-ayat-detector_best.pt
+VISUALIZE_TARGET ?= data/processed/images
+VISUALIZE_OUTPUT ?= experiments/visualizations/latest
+VISUALIZE_CONF ?= 0.25
+VISUALIZE_DEVICE ?=
+VISUALIZE_RECURSIVE ?= 0
 
 install:
 	pip install -r requirements.txt
@@ -9,7 +16,7 @@ prepare-data: convert augment
 
 convert:
 	python3 src/data_processing/xml_to_yolo.py \
-		--xml-dir data/raw/dataset_v1/annotations \
+		--xml-dir experiments/model-v1/visualizations \
 		--output-dir data/processed/labels \
 		--classes configs/classes.txt \
 		--overwrite
@@ -39,6 +46,15 @@ evaluate:
 		--weights models/yolo-ayat-detector_best.pt \
 		--data-config configs/data.yaml
 
+visualize:
+	python3 src/data_processing/visualize_bounding_box.py \
+		--model $(MODEL) \
+		--target-folder $(TARGET) \
+		--output-dir $(OUTPUT) \
+		--conf $(CONF) \
+		$(if $(DEVICE),--device $(DEVICE),) \
+		$(if $(filter 1 true yes on,$(RECURSIVE)),--recursive,)
+
 download-images:
 	python3 src/data_processing/download_images.py \
 		--config configs/variants.yaml \
@@ -49,3 +65,13 @@ sync-labels:
 
 sync-images:
 	rsync -avz -e "ssh -p 46540" data/processed/images/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/images/
+
+quality-control:
+	@if [ -z "$(QC_XML_DIR)" ]; then \
+		echo "Error: QC_XML_DIR must point to a directory of XML files."; \
+		echo "Usage: make quality-control QC_XML_DIR=path/to/xmls"; \
+		exit 1; \
+	fi
+	python3 src/data_processing/quality_control.py \
+		--xml-dir $(QC_XML_DIR) \
+		$(if $(CSV),--csv $(CSV),)
