@@ -92,7 +92,7 @@ def download_page(
     url = f"{base_url}/page_{page_num:03d}.webp"
     
     # Output filename: {variant_name}_page_{page_num}.webp
-    output_file = output_dir / f"{variant_name}_page_{page_num}.webp"
+    output_file = output_dir / f"{variant_name}_page_{page_num:03d}.webp"
 
     # Skip if file exists and not overwriting
     if output_file.exists() and not overwrite:
