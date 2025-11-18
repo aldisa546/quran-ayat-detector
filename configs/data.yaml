@@ -1,0 +1,19 @@
+path: "data"
+train: "splits/train.txt"
+val: "splits/val.txt"
+test: "splits/test.txt"
+nc: 2
+names: ['ayah_marker', 'ayat_line']
+
+dataset:
+  name: "quran_ayat_detection"
+  description: "Unified YOLO dataset for ayah marker and ayat line detection."
+  classes_file: "configs/classes.txt"
+  img_size: 640
+  batch_size: 32
+  num_workers: 8
+
+paths:
+  root: "data/processed"
+  images: "data/processed/images"
+  labels: "data/processed/labels"

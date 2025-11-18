@@ -1,0 +1,6 @@
+variants:
+  non-tajwid: "https://storage.googleapis.com/gongaji-mushaf/mushaf/non-tajwid/arabic/image/webp"
+  haji-umrah: "https://storage.googleapis.com/gongaji-mushaf/mushaf/haji-umrah/arabic/image/webp"
+  mina-tajwid: "https://storage.googleapis.com/gongaji-mushaf/mushaf/mina-tajwid/image/webp"
+  tikrar-tajwid-terjemah: "https://storage.googleapis.com/gongaji-mushaf/mushaf/non-tajwid/image/webp"
+
