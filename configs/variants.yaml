@@ -1,7 +1,21 @@
 variants:
-  non-tajwid: "https://storage.googleapis.com/gongaji-mushaf/mushaf/non-tajwid/image/webp"
-  haji-umrah: "https://storage.googleapis.com/gongaji-mushaf/mushaf/haji-umrah/arabic/image/webp"
-  mina-tajwid: "https://storage.googleapis.com/gongaji-mushaf/mushaf/mina-tajwid/image/webp"
-  tikrar-tajwid-terjemah: "https://storage.googleapis.com/gongaji-mushaf/mushaf/tikrar-tajwid-terjemah/image/webp"
-  quba: "https://storage.googleapis.com/gongaji-mushaf/mushaf/quba/image/webp"
-
+  # Each variant can specify its own extension (webp, jpeg, jpg, png, etc.)
+  # If extension is not specified, defaults to 'webp'
+  non-tajwid:
+    url: "https://storage.googleapis.com/gongaji-mushaf/mushaf/non-tajwid/image/webp"
+    extension: webp
+  haji-umrah:
+    url: "https://storage.googleapis.com/gongaji-mushaf/mushaf/haji-umrah/arabic/image/webp"
+    extension: webp
+  mina-tajwid:
+    url: "https://storage.googleapis.com/gongaji-mushaf/mushaf/mina-tajwid/image/webp"
+    extension: webp
+  tikrar-tajwid-terjemah:
+    url: "https://storage.googleapis.com/gongaji-mushaf/mushaf/tikrar-tajwid-terjemah/image/webp"
+    extension: webp
+  quba:
+    url: "https://storage.googleapis.com/gongaji-mushaf/mushaf/quba/image/webp"
+    extension: webp
+  mina:
+    url: "https://storage.googleapis.com/gongaji-mushaf/mushaf/mina/image/webp"
+    extension: webp
