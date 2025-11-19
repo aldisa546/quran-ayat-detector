@@ -1,1 +1,19 @@
 venv
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.svg
+*.webp
+*.ico
+*.tiff
+*.tif
+*.raw
+*.heif
+*.heic
+data/processed/cropped_ayah_markers/
+data/processed/images/
+data/processed/labels/
+data/processed/cropped_ayah_markers_cls/
