@@ -82,6 +82,9 @@ sync-labels:
 sync-images:
 	rsync -avz -e "ssh -p 46540" data/processed/images/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/images/
 
+sync-labels-cls:
+	rsync -avz -e "ssh -p 46461" data/processed/cropped_ayah_markers/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/cropped_ayah_markers/
+
 quality-control:
 	@if [ -z "$(QC_XML_DIR)" ]; then \
 		echo "Error: QC_XML_DIR must point to a directory of XML files."; \
