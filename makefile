@@ -1,6 +1,6 @@
 # Makefile for scalable YOLO pipeline
 
-.PHONY: install prepare-data convert merge augment train evaluate visualize download-images sync-labels quality-control
+.PHONY: install prepare-data convert merge augment train evaluate visualize download-images sync-labels quality-control train-ayah-classifier
 
 VISUALIZE_MODEL ?= models/yolo-ayat-detector_best.pt
 VISUALIZE_TARGET ?= data/processed/images
@@ -9,6 +9,22 @@ VISUALIZE_CONF ?= 0.25
 VISUALIZE_DEVICE ?=
 VISUALIZE_RECURSIVE ?= 0
 
+# Ayah classifier training variables
+AYAH_SOURCE_DIR ?= data/processed/cropped_ayah_markers
+AYAH_OUTPUT_DIR ?= data/processed/cropped_ayah_markers_cls
+AYAH_TRAIN_RATIO ?= 0.8
+AYAH_VAL_RATIO ?= 0.1
+AYAH_TEST_RATIO ?= 0.1
+AYAH_SEED ?= 42
+AYAH_MODEL ?= yolov8n-cls.pt
+AYAH_EPOCHS ?= 25
+AYAH_BATCH ?= 32
+AYAH_IMGSZ ?= 224
+AYAH_DEVICE ?=
+AYAH_PROJECT ?= experiments
+AYAH_RUN_NAME ?= ayah-classifier
+AYAH_FORCE_REBUILD ?=
+
 install:
 	pip install -r requirements.txt
 
@@ -16,7 +32,7 @@ prepare-data: convert augment
 
 convert:
 	python3 src/data_processing/xml_to_yolo.py \
-		--xml-dir experiments/model-v1/visualizations \
+		--xml-dir data/raw/dataset_v3 \
 		--output-dir data/processed/labels \
 		--classes configs/classes.txt \
 		--overwrite
@@ -75,3 +91,20 @@ quality-control:
 	python3 src/data_processing/quality_control.py \
 		--xml-dir $(QC_XML_DIR) \
 		$(if $(CSV),--csv $(CSV),)
+
+train-ayah-classifier:
+	python3 src/data_processing/train_ayah_classifier.py \
+		--source-dir $(AYAH_SOURCE_DIR) \
+		--output-dir $(AYAH_OUTPUT_DIR) \
+		--train-ratio $(AYAH_TRAIN_RATIO) \
+		--val-ratio $(AYAH_VAL_RATIO) \
+		--test-ratio $(AYAH_TEST_RATIO) \
+		--seed $(AYAH_SEED) \
+		--model $(AYAH_MODEL) \
+		--epochs $(AYAH_EPOCHS) \
+		--batch $(AYAH_BATCH) \
+		--imgsz $(AYAH_IMGSZ) \
+		--project $(AYAH_PROJECT) \
+		--run-name $(AYAH_RUN_NAME) \
+		$(if $(AYAH_DEVICE),--device $(AYAH_DEVICE),) \
+		$(if $(filter 1 true yes on,$(AYAH_FORCE_REBUILD)),--force-rebuild,)
