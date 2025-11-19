@@ -12,8 +12,8 @@ splits, after which the Ultralytics YOLO classifier is trained.
 from __future__ import annotations
 
 import argparse
+import logging
 import os
-import random
 import re
 import shutil
 from collections import defaultdict
@@ -45,28 +45,30 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
-        "--train-ratio",
-        type=float,
-        default=0.8,
-        help="Fraction of samples assigned to the training split.",
+        "--train-dir",
+        type=Path,
+        default=Path("data/processed/ayah_classifier_train"),
+        help=(
+            "Directory containing pre-split training data organized by class."
+        ),
     )
     parser.add_argument(
-        "--val-ratio",
-        type=float,
-        default=0.1,
-        help="Fraction of samples assigned to the validation split.",
+        "--val-dir",
+        type=Path,
+        default=Path("data/processed/ayah_classifier_test"),
+        help=(
+            "Directory containing validation data organized by class. "
+            "Also used for test split if --test-dir is not specified."
+        ),
     )
     parser.add_argument(
-        "--test-ratio",
-        type=float,
-        default=0.1,
-        help="Fraction of samples assigned to the test split.",
-    )
-    parser.add_argument(
-        "--seed",
-        type=int,
-        default=42,
-        help="Random seed for data shuffling.",
+        "--test-dir",
+        type=Path,
+        default=Path("data/processed/ayah_classifier_test"),
+        help=(
+            "Directory containing test data organized by class. "
+            "Defaults to the same directory as --val-dir."
+        ),
     )
     parser.add_argument(
         "--model",
@@ -115,10 +117,13 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def infer_label(image_path: Path) -> str:
+def infer_label(image_path: Path) -> str | None:
     match = LABEL_PATTERN.search(image_path.stem)
     if not match:
-        raise ValueError(f"Unable to infer ayah label from file name: {image_path.name}")
+        logging.warning(
+            "Skipping %s because no ayah label could be inferred", image_path.name
+        )
+        return None
     return f"ayah_{int(match.group(1)):03d}"
 
 
@@ -150,9 +155,29 @@ def stratified_split(
     rng = random.Random(seed)
     grouped: Dict[str, List[Path]] = defaultdict(list)
 
+    skipped: List[Path] = []
+
     for image_path in images:
         label = infer_label(image_path)
+        if label is None:
+            skipped.append(image_path)
+            continue
         grouped[label].append(image_path)
+
+    if skipped:
+        sample = ", ".join(p.name for p in skipped[:5])
+        logging.warning(
+            "Skipped %d image(s) without ayah labels (e.g., %s). "
+            "Ensure --source-dir points to cropped ayah markers.",
+            len(skipped),
+            sample,
+        )
+
+    if not grouped:
+        raise RuntimeError(
+            "No ayah-labelled images found. Verify that the source directory "
+            "contains crops named like '*_ayah_001.webp'."
+        )
 
     splits: Dict[str, List[Tuple[Path, str]]] = {name: [] for name in SPLIT_NAMES}
 
@@ -221,6 +246,69 @@ def build_classification_dataset(
     return output_dir
 
 
+def prepare_existing_dataset(
+    train_dir: Path,
+    val_dir: Path | None,
+    test_dir: Path | None,
+    output_dir: Path,
+    force_rebuild: bool,
+) -> Path:
+    def _ensure_dir(path: Path, label: str) -> Path:
+        if not path:
+            raise ValueError(f"{label} directory is required when --train-dir is set.")
+        if not path.is_dir():
+            raise FileNotFoundError(f"{label} directory does not exist: {path}")
+        return path.resolve()
+
+    train_src = _ensure_dir(train_dir, "Training")
+    val_src = _ensure_dir(val_dir or test_dir, "Validation/Test")
+    test_src = _ensure_dir(test_dir or val_dir, "Test/Validation")
+
+    if output_dir.exists() and force_rebuild:
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Organize images by class for each split
+    for split_name, src in {
+        "train": train_src,
+        "val": val_src,
+        "test": test_src,
+    }.items():
+        split_output = output_dir / split_name
+        split_output.mkdir(parents=True, exist_ok=True)
+        
+        # Find all image files in the source directory
+        image_extensions = {".webp", ".jpg", ".jpeg", ".png", ".bmp"}
+        images = [f for f in src.iterdir() if f.is_file() and f.suffix.lower() in image_extensions]
+        
+        if not images:
+            logging.warning(f"No images found in {src}")
+            continue
+        
+        skipped = []
+        for image_path in images:
+            label = infer_label(image_path)
+            if label is None:
+                skipped.append(image_path)
+                continue
+            
+            # Create class directory and link/copy the image
+            label_dir = split_output / label
+            label_dir.mkdir(parents=True, exist_ok=True)
+            target_path = label_dir / image_path.name
+            link_or_copy(image_path, target_path)
+        
+        if skipped:
+            sample = ", ".join(p.name for p in skipped[:5])
+            logging.warning(
+                f"Skipped {len(skipped)} image(s) in {split_name} without ayah labels (e.g., {sample})"
+            )
+        
+        logging.info(f"Organized {len(images) - len(skipped)} images into {split_name} split")
+
+    return output_dir
+
+
 def train_classifier(
     dataset_dir: Path,
     model_name: str,
@@ -246,10 +334,12 @@ def train_classifier(
 
 def main() -> None:
     args = parse_args()
-    images = collect_images(args.source_dir)
-    splits = stratified_split(images, args.train_ratio, args.val_ratio, args.seed)
-    dataset_dir = build_classification_dataset(
-        splits, args.output_dir, args.force_rebuild
+    dataset_dir = prepare_existing_dataset(
+        train_dir=args.train_dir,
+        val_dir=args.val_dir,
+        test_dir=args.test_dir,
+        output_dir=args.output_dir,
+        force_rebuild=args.force_rebuild,
     )
     train_classifier(
         dataset_dir=dataset_dir,
