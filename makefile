@@ -77,13 +77,13 @@ download-images:
 		--output-dir data/processed/images
 
 sync-labels:
-	rsync -avz -e "ssh -p 46540" data/processed/labels/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/labels/
+	rsync -avz -e "ssh -p 46340" data/processed/labels/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/labels/
 
 sync-images:
-	rsync -avz -e "ssh -p 46540" data/processed/images/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/images/
+	rsync -avz -e "ssh -p 46340" data/processed/images/ root@108.39.26.2:/workspace/quran-ayat-detector/data/processed/images/
 
 sync-labels-cls:
-	rsync -avz -e "ssh -p 46461" data/processed/cropped_ayah_markers/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/cropped_ayah_markers/
+	rsync -avz -e "ssh -p 46340" data/processed/cropped_ayah_markers/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/cropped_ayah_markers/
 
 quality-control:
 	@if [ -z "$(QC_XML_DIR)" ]; then \
