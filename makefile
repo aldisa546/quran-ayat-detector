@@ -10,12 +10,10 @@ VISUALIZE_DEVICE ?=
 VISUALIZE_RECURSIVE ?= 0
 
 # Ayah classifier training variables
-AYAH_SOURCE_DIR ?= data/processed/cropped_ayah_markers
+AYAH_TRAIN_DIR ?= data/processed/ayah_classifier_train
+AYAH_VAL_DIR ?= data/processed/ayah_classifier_test
+AYAH_TEST_DIR ?= data/processed/ayah_classifier_test
 AYAH_OUTPUT_DIR ?= data/processed/cropped_ayah_markers_cls
-AYAH_TRAIN_RATIO ?= 0.8
-AYAH_VAL_RATIO ?= 0.1
-AYAH_TEST_RATIO ?= 0.1
-AYAH_SEED ?= 42
 AYAH_MODEL ?= yolov8n-cls.pt
 AYAH_EPOCHS ?= 25
 AYAH_BATCH ?= 32
@@ -82,8 +80,11 @@ sync-labels:
 sync-images:
 	rsync -avz -e "ssh -p 46340" data/processed/images/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/images/
 
-sync-labels-cls:
-	rsync -avz -e "ssh -p 46340" data/processed/cropped_ayah_markers/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/cropped_ayah_markers/
+sync-labels-cls-train:
+	rsync -avz -e "ssh -p 46340" data/processed/ayah_classifier_train/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/ayah_classifier_train/
+
+sync-labels-cls-test:
+	rsync -avz -e "ssh -p 46340" data/processed/ayah_classifier_test/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/ayah_classifier_test/
 
 quality-control:
 	@if [ -z "$(QC_XML_DIR)" ]; then \
@@ -97,12 +98,10 @@ quality-control:
 
 train-ayah-classifier:
 	python3 src/data_processing/train_ayah_classifier.py \
-		--source-dir $(AYAH_SOURCE_DIR) \
+		--train-dir $(AYAH_TRAIN_DIR) \
+		--val-dir $(AYAH_VAL_DIR) \
+		--test-dir $(AYAH_TEST_DIR) \
 		--output-dir $(AYAH_OUTPUT_DIR) \
-		--train-ratio $(AYAH_TRAIN_RATIO) \
-		--val-ratio $(AYAH_VAL_RATIO) \
-		--test-ratio $(AYAH_TEST_RATIO) \
-		--seed $(AYAH_SEED) \
 		--model $(AYAH_MODEL) \
 		--epochs $(AYAH_EPOCHS) \
 		--batch $(AYAH_BATCH) \
