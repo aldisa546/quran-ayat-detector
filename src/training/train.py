@@ -77,6 +77,7 @@ def train() -> None:
         "data": str(args.data_config),
         "imgsz": data_cfg["dataset"]["img_size"],
         "batch": data_cfg["dataset"]["batch_size"],
+        "epochs": model_cfg["model"].get("epochs", 120),
         "workers": data_cfg["dataset"].get("num_workers", 8),
         "project": model_cfg["logging"]["project"],
         "name": model_cfg["logging"]["name"],

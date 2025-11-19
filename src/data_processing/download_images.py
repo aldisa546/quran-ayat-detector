@@ -62,8 +62,16 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_variants(config_path: Path) -> Dict[str, str]:
-    """Load variant configurations from YAML file."""
+def load_variants(config_path: Path) -> Dict[str, Dict[str, str]]:
+    """Load variant configurations from YAML file.
+    
+    Supports two formats:
+    1. Object format: {url: "...", extension: "webp"}
+    2. String format (backward compatible): "..." (defaults to 'webp' extension)
+    
+    Returns:
+        Dictionary mapping variant names to {url: str, extension: str}
+    """
     if not config_path.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
@@ -73,9 +81,42 @@ def load_variants(config_path: Path) -> Dict[str, str]:
     if "variants" not in config:
         raise ValueError("Configuration file must contain a 'variants' key")
 
-    variants = config["variants"]
-    if not isinstance(variants, dict):
-        raise ValueError("'variants' must be a dictionary mapping variant names to base URLs")
+    variants_raw = config["variants"]
+    if not isinstance(variants_raw, dict):
+        raise ValueError("'variants' must be a dictionary")
+
+    # Process variants - support both object and string formats
+    variants: Dict[str, Dict[str, str]] = {}
+    default_extension = "webp"
+    
+    for variant_name, variant_config in variants_raw.items():
+        if isinstance(variant_config, str):
+            # Backward compatible: simple string URL, default to 'webp'
+            variants[variant_name] = {
+                "url": variant_config,
+                "extension": default_extension
+            }
+        elif isinstance(variant_config, dict):
+            # New format: object with url and optional extension
+            if "url" not in variant_config:
+                raise ValueError(f"Variant '{variant_name}' must have a 'url' field")
+            
+            extension = variant_config.get("extension", default_extension)
+            if not isinstance(extension, str):
+                raise ValueError(
+                    f"Variant '{variant_name}' extension must be a string "
+                    "(e.g., 'webp', 'jpeg', 'png')"
+                )
+            
+            variants[variant_name] = {
+                "url": variant_config["url"],
+                "extension": extension
+            }
+        else:
+            raise ValueError(
+                f"Variant '{variant_name}' must be either a string URL or "
+                "an object with 'url' and optional 'extension' fields"
+            )
 
     return variants
 
@@ -85,14 +126,15 @@ def download_page(
     variant_name: str,
     page_num: int,
     output_dir: Path,
+    extension: str,
     overwrite: bool = False,
 ) -> bool:
     """Download a single page image."""
-    # URL format: {base_url}/page_{page_num:03d}.webp
-    url = f"{base_url}/page_{page_num:03d}.webp"
+    # URL format: {base_url}/page_{page_num:03d}.{extension}
+    url = f"{base_url}/page_{page_num:03d}.{extension}"
     
-    # Output filename: {variant_name}_page_{page_num}.webp
-    output_file = output_dir / f"{variant_name}_page_{page_num:03d}.webp"
+    # Output filename: {variant_name}_page_{page_num}.{extension}
+    output_file = output_dir / f"{variant_name}_page_{page_num:03d}.{extension}"
 
     # Skip if file exists and not overwriting
     if output_file.exists() and not overwrite:
@@ -118,16 +160,17 @@ def download_variant(
     output_dir: Path,
     start_page: int,
     end_page: int,
+    extension: str,
     overwrite: bool = False,
 ) -> tuple[int, int]:
     """Download all pages for a variant."""
-    logging.info("Downloading variant: %s", variant_name)
+    logging.info("Downloading variant: %s (extension: %s)", variant_name, extension)
     
     success_count = 0
     fail_count = 0
 
     for page_num in range(start_page, end_page + 1):
-        if download_page(base_url, variant_name, page_num, output_dir, overwrite):
+        if download_page(base_url, variant_name, page_num, output_dir, extension, overwrite):
             success_count += 1
         else:
             fail_count += 1
@@ -166,13 +209,17 @@ def main() -> None:
     total_success = 0
     total_fail = 0
 
-    for variant_name, base_url in variants.items():
+    for variant_name, variant_config in variants.items():
+        base_url = variant_config["url"]
+        extension = variant_config["extension"]
+        
         success, fail = download_variant(
             variant_name,
             base_url,
             args.output_dir,
             args.start_page,
             args.end_page,
+            extension,
             args.overwrite,
         )
         total_success += success
