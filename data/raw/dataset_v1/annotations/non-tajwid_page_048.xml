@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<annotation verified="yes">
+	<folder>training_images</folder>
+	<filename>non-tajwid_page_048.webp</filename>
+	<path>/Users/syaamil/development/Quran-Bounding/MODEL TRAINER/datasets/training_images/non-tajwid_page_048.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1000</width>
+		<height>1585</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>ayat_line</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>63</xmin>
+			<ymin>113</ymin>
+			<xmax>942</xmax>
+			<ymax>1481</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>ayah_marker</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>70</xmin>
+			<ymin>1402</ymin>
+			<xmax>123</xmax>
+			<ymax>1462</ymax>
+		</bndbox>
+	</object>
+</annotation>

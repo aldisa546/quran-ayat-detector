@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<annotation verified="yes">
+	<folder>training_images</folder>
+	<filename>tikrar-tajwid-terjemah_page_048.webp</filename>
+	<path>/Users/syaamil/development/Quran-Bounding/MODEL TRAINER/datasets/images/test_validation/tikrar-tajwid-terjemah_page_048.webp</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1000</width>
+		<height>1584</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>ayat_line</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>38</xmin>
+			<ymin>80</ymin>
+			<xmax>964</xmax>
+			<ymax>1540</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>ayah_marker</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>55</xmin>
+			<ymin>1436</ymin>
+			<xmax>122</xmax>
+			<ymax>1513</ymax>
+		</bndbox>
+	</object>
+</annotation>

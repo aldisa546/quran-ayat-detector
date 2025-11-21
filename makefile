@@ -96,6 +96,12 @@ quality-control:
 		--xml-dir $(QC_XML_DIR) \
 		$(if $(CSV),--csv $(CSV),)
 
+run-ayah-classifier-inference:
+	python3 run_ayah_classifier_inference.py \
+		--model $(AYAH_MODEL) \
+		--test-dir $(AYAH_TEST_DIR) \
+		--output $(AYAH_OUTPUT_DIR)
+
 train-ayah-classifier:
 	python3 src/data_processing/train_ayah_classifier.py \
 		--train-dir $(AYAH_TRAIN_DIR) \
