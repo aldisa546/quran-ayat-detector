@@ -6,7 +6,6 @@ model:
   batch: 32
   epochs: 120
   # patience: 20
-  device: "0"
   # optimizer: "AdamW"
   # lr0: 0.0005
   # lrf: 0.01
