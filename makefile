@@ -75,16 +75,16 @@ download-images:
 		--output-dir data/processed/images
 
 sync-labels-detection:
-	rsync -avz -e "ssh -p 46340" data/processed/labels/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/labels/
+	rsync -avz -e "ssh -p 41361" data/processed/labels/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/labels/
 
 sync-images-detection:
-	rsync -avz -e "ssh -p 46340" data/processed/images/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/images/
+	rsync -avz -e "ssh -p 41361" data/processed/images/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/images/
 
 sync-labels-cls-train:
-	rsync -avz -e "ssh -p 46340" data/processed/ayah_classifier_train/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/ayah_classifier_train/
+	rsync -avz -e "ssh -p 41361" data/processed/ayah_classifier_train/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/ayah_classifier_train/
 
 sync-labels-cls-test:
-	rsync -avz -e "ssh -p 46340" data/processed/ayah_classifier_test/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/ayah_classifier_test/
+	rsync -avz -e "ssh -p 41361" data/processed/ayah_classifier_test/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/ayah_classifier_test/
 
 quality-control:
 	@if [ -z "$(QC_XML_DIR)" ]; then \
