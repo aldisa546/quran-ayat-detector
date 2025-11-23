@@ -74,10 +74,10 @@ download-images:
 		--config configs/variants.yaml \
 		--output-dir data/processed/images
 
-sync-labels:
+sync-labels-detection:
 	rsync -avz -e "ssh -p 46340" data/processed/labels/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/labels/
 
-sync-images:
+sync-images-detection:
 	rsync -avz -e "ssh -p 46340" data/processed/images/ root@85.10.218.46:/workspace/quran-ayat-detector/data/processed/images/
 
 sync-labels-cls-train:
