@@ -14,10 +14,26 @@ import shutil
 from pathlib import Path
 from typing import Any, Dict
 
+import sys
+
+import cv2
+import numpy as np
 import yaml
 import wandb
 from ultralytics import YOLO
 from wandb.integration.ultralytics import add_wandb_callback
+
+try:
+    import albumentations
+    ALBUMENTATIONS_AVAILABLE = True
+except ImportError:
+    ALBUMENTATIONS_AVAILABLE = False
+
+try:
+    import tqdm
+    TQDM_AVAILABLE = True
+except ImportError:
+    TQDM_AVAILABLE = False
 
 
 def parse_args() -> argparse.Namespace:
@@ -62,9 +78,66 @@ def resolve_names(data_cfg: Dict[str, Any]) -> Dict[int, str]:
     raise ValueError("`names` must be a list or mapping in configs/data.yaml")
 
 
+def log_version_info() -> None:
+    """Log version information for all key libraries."""
+    logging.info("=" * 60)
+    logging.info("Library Versions:")
+    logging.info("=" * 60)
+    
+    # Core libraries
+    logging.info(f"Python: {sys.version.split()[0]}")
+    
+    try:
+        import ultralytics
+        logging.info(f"ultralytics: {ultralytics.__version__}")
+    except (ImportError, AttributeError):
+        logging.info("ultralytics: version unknown")
+    
+    try:
+        logging.info(f"wandb: {wandb.__version__}")
+    except (ImportError, AttributeError):
+        logging.info("wandb: not available")
+    
+    try:
+        logging.info(f"numpy: {np.__version__}")
+    except (ImportError, AttributeError):
+        logging.info("numpy: not available")
+    
+    try:
+        logging.info(f"opencv-python: {cv2.__version__}")
+    except (ImportError, AttributeError):
+        logging.info("opencv-python: not available")
+    
+    try:
+        logging.info(f"PyYAML: {yaml.__version__}")
+    except (ImportError, AttributeError):
+        logging.info("PyYAML: not available")
+    
+    if TQDM_AVAILABLE:
+        try:
+            logging.info(f"tqdm: {tqdm.__version__}")
+        except (ImportError, AttributeError):
+            logging.info("tqdm: installed but version unknown")
+    else:
+        logging.info("tqdm: not installed")
+    
+    if ALBUMENTATIONS_AVAILABLE:
+        try:
+            logging.info(f"albumentations: {albumentations.__version__}")
+        except (ImportError, AttributeError):
+            logging.info("albumentations: installed but version unknown")
+    else:
+        logging.info("albumentations: not installed")
+    
+    logging.info("=" * 60)
+
+
 def train() -> None:
     args = parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
+    
+    # Log version information
+    log_version_info()
 
     data_cfg = load_yaml(args.data_config)
     model_cfg = load_yaml(args.model_config)
