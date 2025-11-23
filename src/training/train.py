@@ -20,6 +20,7 @@ import cv2
 import numpy as np
 import yaml
 import wandb
+import torch
 from ultralytics import YOLO
 from wandb.integration.ultralytics import add_wandb_callback
 
@@ -113,6 +114,18 @@ def log_version_info() -> None:
     except (ImportError, AttributeError):
         logging.info("PyYAML: not available")
     
+    try:
+        logging.info(f"PyTorch: {torch.__version__}")
+        logging.info(f"CUDA available: {torch.cuda.is_available()}")
+        if torch.cuda.is_available():
+            logging.info(f"CUDA version: {torch.version.cuda}")
+            logging.info(f"cuDNN version: {torch.backends.cudnn.version()}")
+            logging.info(f"Number of GPUs: {torch.cuda.device_count()}")
+            for i in range(torch.cuda.device_count()):
+                logging.info(f"  GPU {i}: {torch.cuda.get_device_name(i)}")
+    except (ImportError, AttributeError):
+        logging.info("PyTorch: not available")
+    
     if TQDM_AVAILABLE:
         try:
             logging.info(f"tqdm: {tqdm.__version__}")
@@ -172,6 +185,15 @@ def train() -> None:
 
     model = YOLO(weights_path)
     add_wandb_callback(model, enable_model_checkpointing=True)
+    
+    # Determine device: use CUDA if available, otherwise CPU
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    if device == "cuda":
+        logging.info(f"Using CUDA device: {torch.cuda.get_device_name(0)}")
+        logging.info(f"CUDA version: {torch.version.cuda}")
+    else:
+        logging.info("CUDA not available, using CPU")
+    
     overrides = {
         "data": str(args.data_config),
         "imgsz": data_cfg["dataset"]["img_size"],
@@ -181,6 +203,7 @@ def train() -> None:
         "project": model_cfg["logging"]["project"],
         "name": model_cfg["logging"]["name"],
         "exist_ok": model_cfg["logging"].get("exist_ok", True),
+        "device": device,
         **yolov8_args,
     }
 

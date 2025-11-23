@@ -22,5 +22,5 @@ dataset:
 
 paths:
   root: "data/processed"
-  images: "data/processed/images"
-  labels: "data/processed/labels"
+  images: "datasets/data/processed/images"
+  labels: "datasets/data/processed/labels"
