@@ -1,10 +1,17 @@
-path: "data"
-train: "splits/train.txt"
-val: "splits/val.txt"
-test: "splits/test.txt"
+# YOLO dataset configuration
+# The 'path' field is the root directory for resolving relative paths in train/val/test files
+path: .
+train: data/splits/train.txt
+val: data/splits/val.txt
+test: data/splits/test.txt
+
+# Number of classes
 nc: 2
+
+# Class names
 names: ['ayah_marker', 'ayat_line']
 
+# Additional dataset metadata (not used by YOLO directly)
 dataset:
   name: "quran_ayat_detection"
   description: "Unified YOLO dataset for ayah marker and ayat line detection."

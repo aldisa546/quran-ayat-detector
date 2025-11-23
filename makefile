@@ -1,6 +1,6 @@
 # Makefile for scalable YOLO pipeline
 
-.PHONY: install prepare-data convert merge augment train evaluate visualize download-images sync-labels quality-control train-ayah-classifier
+.PHONY: install prepare-data convert merge augment train evaluate visualize download-images sync-labels quality-control train-ayah-classifier validate-dataset fix-dataset
 
 VISUALIZE_MODEL ?= models/yolo-ayat-detector_best.pt
 VISUALIZE_TARGET ?= data/processed/images
@@ -116,3 +116,15 @@ train-ayah-classifier:
 		--run-name $(AYAH_RUN_NAME) \
 		$(if $(AYAH_DEVICE),--device $(AYAH_DEVICE),) \
 		$(if $(filter 1 true yes on,$(AYAH_FORCE_REBUILD)),--force-rebuild,)
+
+validate-dataset:
+	python3 src/data_processing/validate_yolo_dataset.py \
+		--data-config configs/data.yaml \
+		$(if $(FIX),--fix,) \
+		$(if $(VERBOSE),--verbose,)
+
+fix-dataset:
+	python3 src/data_processing/fix_yolo_dataset.py \
+		--data-config configs/data.yaml \
+		--clear-cache \
+		$(if $(VERBOSE),--verbose,)
