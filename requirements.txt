@@ -3,6 +3,6 @@ numpy>=1.26.0
 opencv-python>=4.9.0
 pyyaml>=6.0.1
 tqdm>=4.66.0
-ultralytics>=8.0.186
+ultralytics==8.0.186
 wandb>=0.16.0
 
