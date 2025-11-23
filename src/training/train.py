@@ -171,7 +171,7 @@ def train() -> None:
     logging.info("Loading model from %s", weights_path)
 
     model = YOLO(weights_path)
-    add_wandb_callback(model, enable_model_checkpointing=True, max_validation_batches=4)
+    add_wandb_callback(model, enable_model_checkpointing=True)
     overrides = {
         "data": str(args.data_config),
         "imgsz": data_cfg["dataset"]["img_size"],
