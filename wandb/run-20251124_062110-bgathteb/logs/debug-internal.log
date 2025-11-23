@@ -1,0 +1,13 @@
+{"time":"2025-11-24T06:21:10.772483+07:00","level":"INFO","msg":"stream: starting","core version":"0.23.0"}
+{"time":"2025-11-24T06:21:11.225317+07:00","level":"INFO","msg":"stream: created new stream","id":"bgathteb"}
+{"time":"2025-11-24T06:21:11.225383+07:00","level":"INFO","msg":"handler: started","stream_id":"bgathteb"}
+{"time":"2025-11-24T06:21:11.225585+07:00","level":"INFO","msg":"stream: started","id":"bgathteb"}
+{"time":"2025-11-24T06:21:11.225641+07:00","level":"INFO","msg":"sender: started","stream_id":"bgathteb"}
+{"time":"2025-11-24T06:21:11.225654+07:00","level":"INFO","msg":"writer: started","stream_id":"bgathteb"}
+{"time":"2025-11-24T06:21:12.291749+07:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":37}
+{"time":"2025-11-24T06:21:12.292499+07:00","level":"INFO","msg":"stream: closing","id":"bgathteb"}
+{"time":"2025-11-24T06:21:12.67443+07:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":10}
+{"time":"2025-11-24T06:21:14.76664+07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-11-24T06:21:16.577474+07:00","level":"INFO","msg":"handler: closed","stream_id":"bgathteb"}
+{"time":"2025-11-24T06:21:16.578308+07:00","level":"INFO","msg":"sender: closed","stream_id":"bgathteb"}
+{"time":"2025-11-24T06:21:16.578346+07:00","level":"INFO","msg":"stream: closed","id":"bgathteb"}

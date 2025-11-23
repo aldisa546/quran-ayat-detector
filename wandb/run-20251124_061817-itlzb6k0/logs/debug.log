@@ -1,0 +1,36 @@
+2025-11-24 06:18:17,568 INFO    MainThread:2048 [wandb_setup.py:_flush():80] Current SDK version is 0.23.0
+2025-11-24 06:18:17,568 INFO    MainThread:2048 [wandb_setup.py:_flush():80] Configure stats pid to 2048
+2025-11-24 06:18:17,568 INFO    MainThread:2048 [wandb_setup.py:_flush():80] Loading settings from /Users/syaamil/.config/wandb/settings
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_setup.py:_flush():80] Loading settings from /Users/syaamil/development/Quran-Bounding/quran-bounding-project/wandb/settings
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_setup.py:_flush():80] Loading settings from environment variables
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_init.py:setup_run_log_directory():713] Logging user logs to /Users/syaamil/development/Quran-Bounding/quran-bounding-project/wandb/run-20251124_061817-itlzb6k0/logs/debug.log
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_init.py:setup_run_log_directory():714] Logging internal logs to /Users/syaamil/development/Quran-Bounding/quran-bounding-project/wandb/run-20251124_061817-itlzb6k0/logs/debug-internal.log
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_init.py:init():840] calling init triggers
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_init.py:init():845] wandb.init called with sweep_config: {}
+config: {'task': 'detect', 'mode': 'train', 'model': 'yolov8s.pt', 'data': 'configs/data.yaml', 'epochs': 120, 'time': None, 'patience': 50, 'batch': 32, 'imgsz': 640, 'save': True, 'save_period': -1, 'cache': False, 'device': 'cpu', 'workers': 0, 'project': 'experiments', 'name': 'yolo-ayat-detector', 'exist_ok': True, 'pretrained': True, 'optimizer': 'auto', 'verbose': True, 'seed': 0, 'deterministic': True, 'single_cls': False, 'rect': False, 'cos_lr': False, 'close_mosaic': 10, 'resume': False, 'amp': True, 'fraction': 1.0, 'profile': False, 'freeze': None, 'multi_scale': False, 'overlap_mask': True, 'mask_ratio': 4, 'dropout': 0.0, 'val': True, 'split': 'val', 'save_json': False, 'save_hybrid': False, 'conf': None, 'iou': 0.7, 'max_det': 300, 'half': False, 'dnn': False, 'plots': True, 'source': None, 'vid_stride': 1, 'stream_buffer': False, 'visualize': False, 'augment': False, 'agnostic_nms': False, 'classes': None, 'retina_masks': False, 'embed': None, 'show': False, 'save_frames': False, 'save_txt': False, 'save_conf': False, 'save_crop': False, 'show_labels': True, 'show_conf': True, 'show_boxes': True, 'line_width': None, 'format': 'torchscript', 'keras': False, 'optimize': False, 'int8': False, 'dynamic': False, 'simplify': False, 'opset': None, 'workspace': 4, 'nms': False, 'lr0': 0.01, 'lrf': 0.01, 'momentum': 0.937, 'weight_decay': 0.0005, 'warmup_epochs': 3.0, 'warmup_momentum': 0.8, 'warmup_bias_lr': 0.1, 'box': 7.5, 'cls': 0.5, 'dfl': 1.5, 'pose': 12.0, 'kobj': 1.0, 'label_smoothing': 0.0, 'nbs': 64, 'hsv_h': 0.015, 'hsv_s': 0.7, 'hsv_v': 0.4, 'degrees': 0.0, 'translate': 0.1, 'scale': 0.5, 'shear': 0.0, 'perspective': 0.0, 'flipud': 0.0, 'fliplr': 0.5, 'mosaic': 1.0, 'mixup': 0.0, 'copy_paste': 0.0, 'auto_augment': 'randaugment', 'erasing': 0.4, 'crop_fraction': 1.0, 'cfg': None, 'tracker': 'botsort.yaml', 'save_dir': 'experiments/yolo-ayat-detector', '_wandb': {}}
+2025-11-24 06:18:17,569 INFO    MainThread:2048 [wandb_init.py:init():888] starting backend
+2025-11-24 06:18:17,826 INFO    MainThread:2048 [wandb_init.py:init():891] sending inform_init request
+2025-11-24 06:18:17,851 INFO    MainThread:2048 [wandb_init.py:init():899] backend started and connected
+2025-11-24 06:18:17,857 INFO    MainThread:2048 [wandb_init.py:init():969] updated telemetry
+2025-11-24 06:18:17,884 INFO    MainThread:2048 [wandb_init.py:init():993] communicating run to backend with 90.0 second timeout
+2025-11-24 06:18:19,029 INFO    MainThread:2048 [wandb_init.py:init():1040] starting run threads in backend
+2025-11-24 06:18:19,099 INFO    MainThread:2048 [wandb_run.py:_console_start():2504] atexit reg
+2025-11-24 06:18:19,099 INFO    MainThread:2048 [wandb_run.py:_redirect():2352] redirect: wrap_raw
+2025-11-24 06:18:19,099 INFO    MainThread:2048 [wandb_run.py:_redirect():2421] Wrapping output streams.
+2025-11-24 06:18:19,099 INFO    MainThread:2048 [wandb_run.py:_redirect():2444] Redirects installed.
+2025-11-24 06:18:19,101 INFO    MainThread:2048 [wandb_init.py:init():1080] run started, returning control to user process
+2025-11-24 06:18:19,144 ERROR   wandb-AsyncioManager-main:2048 [asyncio_manager.py:fn_wrap_exceptions():183] Uncaught exception in run_soon callback.
+Traceback (most recent call last):
+  File "/Users/syaamil/Library/Python/3.9/lib/python/site-packages/wandb/sdk/lib/asyncio_manager.py", line 181, in fn_wrap_exceptions
+    await fn()
+  File "/Users/syaamil/Library/Python/3.9/lib/python/site-packages/wandb/sdk/lib/service/service_client.py", line 38, in publish
+    await self._send_server_request(request)
+  File "/Users/syaamil/Library/Python/3.9/lib/python/site-packages/wandb/sdk/lib/service/service_client.py", line 64, in _send_server_request
+    await self._writer.drain()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/streams.py", line 387, in drain
+    await self._protocol._drain_helper()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/streams.py", line 194, in _drain_helper
+    assert waiter is None or waiter.cancelled()
+AssertionError
+2025-11-24 06:18:19,190 INFO    wandb-AsyncioManager-main:2048 [service_client.py:_forward_responses():80] Reached EOF.
+2025-11-24 06:18:19,190 INFO    wandb-AsyncioManager-main:2048 [mailbox.py:close():137] Closing mailbox, abandoning 2 handles.

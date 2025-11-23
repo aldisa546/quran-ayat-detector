@@ -1,0 +1,42 @@
+{
+  "os": "macOS-15.1.1-arm64-arm-64bit",
+  "python": "CPython 3.9.6",
+  "startedAt": "2025-11-23T23:21:54.394971Z",
+  "args": [
+    "--data-config",
+    "configs/data.yaml",
+    "--model-config",
+    "configs/model.yaml"
+  ],
+  "program": "/Users/syaamil/development/Quran-Bounding/quran-bounding-project/src/training/train.py",
+  "codePath": "src/training/train.py",
+  "codePathLocal": "src/training/train.py",
+  "git": {
+    "remote": "https://github.com/aldisa546/quran-ayat-detector.git",
+    "commit": "eec6d0ddffe30e5e827a55ff94d9777338264bce"
+  },
+  "email": "aldisa546@gmail.com",
+  "root": "/Users/syaamil/development/Quran-Bounding/quran-bounding-project",
+  "host": "Syaamils-MacBook-Air.local",
+  "executable": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+  "cpu_count": 8,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "245107195904",
+      "used": "227018760192"
+    }
+  },
+  "memory": {
+    "total": "8589934592"
+  },
+  "apple": {
+    "name": "Apple M1",
+    "ecpuCores": 4,
+    "pcpuCores": 4,
+    "gpuCores": 7,
+    "memoryGb": 8,
+    "ramTotalBytes": "8589934592"
+  },
+  "writerId": "edn7bc5cdisi0vsncxy2zir69on562yq"
+}

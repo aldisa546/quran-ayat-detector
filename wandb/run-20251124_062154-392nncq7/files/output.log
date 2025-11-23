@@ -1,0 +1,19 @@
+Freezing layer 'model.22.dfl.conv.weight'
+/Users/syaamil/Library/Python/3.9/lib/python/site-packages/ultralytics/engine/trainer.py:244: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self.scaler = torch.cuda.amp.GradScaler(enabled=self.amp)
+[34m[1mtrain: [0mScanning data/processed/labels... 2416 images, 0 backgrounds, 0 corrupt: 100%|██████████| 2416/2416 [00:03<00:00, 745.35it/s]
+[34m[1mtrain: [0mNew cache created: data/processed/labels.cache
+/Users/syaamil/Library/Python/3.9/lib/python/site-packages/ultralytics/data/augment.py:847: UserWarning: Argument(s) 'quality_lower' are not valid for transform ImageCompression
+  A.ImageCompression(quality_lower=75, p=0.0)]  # transforms
+/Users/syaamil/Library/Python/3.9/lib/python/site-packages/albumentations/core/composition.py:331: UserWarning: Got processor for bboxes, but no transform to process it.
+  self._set_keys()
+[34m[1malbumentations: [0mBlur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
+[34m[1mval: [0mScanning data/processed/labels... 604 images, 0 backgrounds, 0 corrupt: 100%|██████████| 604/604 [00:00<00:00, 762.53it/s]
+[34m[1mval: [0mNew cache created: data/processed/labels.cache
+Plotting labels to experiments/yolo-ayat-detector/labels.jpg...
+[34m[1moptimizer:[0m 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically...
+[34m[1moptimizer:[0m AdamW(lr=0.001667, momentum=0.9) with parameter groups 57 weight(decay=0.0), 64 weight(decay=0.0005), 63 bias(decay=0.0)
+120 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      1/120         0G      2.279       3.05      1.796       1982        640:  14%|█▍        | 11/76 [07:50<46:20, 42.78s/it] 
