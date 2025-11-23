@@ -17,6 +17,7 @@ from typing import Any, Dict
 import yaml
 import wandb
 from ultralytics import YOLO
+from wandb.integration.ultralytics import add_wandb_callback
 
 
 def parse_args() -> argparse.Namespace:
@@ -97,6 +98,7 @@ def train() -> None:
     logging.info("Loading model from %s", weights_path)
 
     model = YOLO(weights_path)
+    add_wandb_callback(model, enable_model_checkpointing=True, max_validation_batches=4)
     overrides = {
         "data": str(args.data_config),
         "imgsz": data_cfg["dataset"]["img_size"],
