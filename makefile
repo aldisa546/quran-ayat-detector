@@ -10,10 +10,10 @@ VISUALIZE_DEVICE ?=
 VISUALIZE_RECURSIVE ?= 0
 
 # Ayah classifier training variables
-AYAH_TRAIN_DIR ?= data/processed/ayah_classifier_train
-AYAH_VAL_DIR ?= data/processed/ayah_classifier_test
-AYAH_TEST_DIR ?= data/processed/ayah_classifier_test
-AYAH_OUTPUT_DIR ?= data/processed/cropped_ayah_markers_cls
+AYAH_TRAIN_DIR ?= datasets/data/processed/ayah_classifier_train
+AYAH_VAL_DIR ?= datasets/data/processed/ayah_classifier_test
+AYAH_TEST_DIR ?= datasets/data/processed/ayah_classifier_test
+AYAH_OUTPUT_DIR ?= datasets/data/processed/cropped_ayah_markers_cls
 AYAH_MODEL ?= yolov8n-cls.pt
 AYAH_EPOCHS ?= 25
 AYAH_BATCH ?= 32
