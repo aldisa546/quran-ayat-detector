@@ -103,7 +103,7 @@ run-ayah-classifier-inference:
 		--output $(AYAH_OUTPUT_DIR)
 
 train-ayah-classifier:
-	python3 src/data_processing/train_ayah_classifier.py \
+	python3 src/training/train_ayah_classifier.py \
 		--train-dir $(AYAH_TRAIN_DIR) \
 		--val-dir $(AYAH_VAL_DIR) \
 		--test-dir $(AYAH_TEST_DIR) \
