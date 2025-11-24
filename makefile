@@ -15,7 +15,7 @@ AYAH_VAL_DIR ?= datasets/data/processed/ayah_classifier_test
 AYAH_TEST_DIR ?= datasets/data/processed/ayah_classifier_test
 AYAH_OUTPUT_DIR ?= datasets/data/processed/cropped_ayah_markers_cls_folder
 AYAH_MODEL ?= yolov8n-cls.pt
-AYAH_EPOCHS ?= 25
+AYAH_EPOCHS ?= 100
 AYAH_BATCH ?= 32
 AYAH_IMGSZ ?= 224
 AYAH_DEVICE ?=
@@ -75,16 +75,16 @@ download-images:
 		--output-dir data/processed/images
 
 sync-labels-detection:
-	rsync -avz -e "ssh -p 41361" data/processed/labels/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/labels/
+	rsync -avz -e "ssh -p 33804" datasets/data/processed/labels/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/labels/
 
 sync-images-detection:
-	rsync -avz -e "ssh -p 41361" data/processed/images/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/images/
+	rsync -avz -e "ssh -p 33804" datasets/data/processed/images/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/images/
 
 sync-labels-cls-train:
-	rsync -avz -e "ssh -p 41361" data/processed/ayah_classifier_train/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/ayah_classifier_train/
+	rsync -avz -e "ssh -p 33804" datasets/data/processed/ayah_classifier_train/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/ayah_classifier_train/
 
 sync-labels-cls-test:
-	rsync -avz -e "ssh -p 41361" data/processed/ayah_classifier_test/ root@96.241.192.5:/workspace/quran-ayat-detector/data/processed/ayah_classifier_test/
+	rsync -avz -e "ssh -p 33804" datasets/data/processed/ayah_classifier_test/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/ayah_classifier_test/
 
 quality-control:
 	@if [ -z "$(QC_XML_DIR)" ]; then \
