@@ -39,7 +39,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("datasets/data/processed/cropped_ayah_markers_cls"),
+        default=Path("datasets/data/processed/cropped_ayah_markers_cls_folder"),
         help=(
             "Directory where the YOLO classification dataset structure will be written."
         ),
