@@ -3,7 +3,7 @@
 Train a YOLOv8 image classifier to identify ayah markers.
 
 The script expects a directory of cropped ayah marker images (default:
-`data/processed/cropped_ayah_markers`). Each image file name is parsed to infer
+`datasets/data/processed/cropped_ayah_markers`). Each image file name is parsed to infer
 the ayah label (e.g. `..._ayah_001.webp` -> `ayah_001`). The data is converted
 into a YOLO classification-friendly folder structure with train/val/test
 splits, after which the Ultralytics YOLO classifier is trained.
@@ -33,13 +33,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--source-dir",
         type=Path,
-        default=Path("data/processed/cropped_ayah_markers"),
+        default=Path("datasets/data/processed/cropped_ayah_markers"),
         help="Directory containing cropped ayah marker images.",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("data/processed/cropped_ayah_markers_cls"),
+        default=Path("datasets/data/processed/cropped_ayah_markers_cls"),
         help=(
             "Directory where the YOLO classification dataset structure will be written."
         ),
@@ -47,7 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--train-dir",
         type=Path,
-        default=Path("data/processed/ayah_classifier_train"),
+        default=Path("datasets/data/processed/ayah_classifier_train"),
         help=(
             "Directory containing pre-split training data organized by class."
         ),
@@ -55,7 +55,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--val-dir",
         type=Path,
-        default=Path("data/processed/ayah_classifier_test"),
+        default=Path("datasets/data/processed/ayah_classifier_test"),
         help=(
             "Directory containing validation data organized by class. "
             "Also used for test split if --test-dir is not specified."
@@ -64,7 +64,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--test-dir",
         type=Path,
-        default=Path("data/processed/ayah_classifier_test"),
+        default=Path("datasets/data/processed/ayah_classifier_test"),
         help=(
             "Directory containing test data organized by class. "
             "Defaults to the same directory as --val-dir."
