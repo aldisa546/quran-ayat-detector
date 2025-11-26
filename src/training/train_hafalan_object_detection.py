@@ -24,6 +24,15 @@ import torch
 from ultralytics import YOLO
 from wandb.integration.ultralytics import add_wandb_callback
 
+# Try to import DetectionValidator for patching
+try:
+    from ultralytics.models.yolo.detect.val import DetectionValidator
+except ImportError:
+    try:
+        from ultralytics.models.yolo.detect import DetectionValidator
+    except ImportError:
+        DetectionValidator = None
+
 try:
     import albumentations
     ALBUMENTATIONS_AVAILABLE = True
@@ -145,12 +154,48 @@ def log_version_info() -> None:
     logging.info("=" * 60)
 
 
+def patch_validator_get_stats():
+    """Patch DetectionValidator.get_stats to handle empty validation stats gracefully."""
+    if DetectionValidator is None:
+        logging.warning("Could not import DetectionValidator. Skipping patch.")
+        return
+    
+    original_get_stats = DetectionValidator.get_stats
+    
+    def patched_get_stats(self):
+        """Patched version that handles empty stats."""
+        try:
+            return original_get_stats(self)
+        except RuntimeError as e:
+            if "expected a non-empty list of Tensors" in str(e):
+                logging.warning(
+                    "Validation stats are empty (no labels found). "
+                    "Returning zero metrics. This may indicate missing label files."
+                )
+                # Filter out empty lists before concatenation
+                stats = {}
+                for k, v in self.stats.items():
+                    if v and len(v) > 0:
+                        stats[k] = torch.cat(v, 0).cpu().numpy()
+                    else:
+                        # Create empty array with appropriate shape
+                        # Most stats are shape (N, 6) or (N, 7) for detection metrics
+                        stats[k] = np.array([]).reshape(0, 6) if 'box' in k.lower() or 'conf' in k.lower() else np.array([])
+                return stats
+            raise
+    
+    DetectionValidator.get_stats = patched_get_stats
+
+
 def train() -> None:
     args = parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
     
     # Log version information
     log_version_info()
+    
+    # Patch validator to handle empty validation stats
+    patch_validator_get_stats()
 
     data_cfg = load_yaml(args.data_config)
     model_cfg = load_yaml(args.model_config)
