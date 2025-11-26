@@ -1,9 +1,9 @@
 # YOLO dataset configuration
 # The 'path' field is the root directory for resolving relative paths in train/val/test files
 path: .
-train: data/splits/train_hafalan.txt
-val: data/splits/val_hafalan.txt
-test: data/splits/test_hafalan.txt
+train: datasets/data/splits/train_hafalan.txt
+val: datasets/data/splits/val_hafalan.txt
+test: datasets/data/splits/test_hafalan.txt
 
 # Number of classes
 nc: 3
