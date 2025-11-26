@@ -1,0 +1,26 @@
+# YOLO dataset configuration
+# The 'path' field is the root directory for resolving relative paths in train/val/test files
+path: .
+train: data/splits/train_hafalan.txt
+val: data/splits/val_hafalan.txt
+test: data/splits/test_hafalan.txt
+
+# Number of classes
+nc: 3
+
+# Class names
+names: ['MAQTA_LAST', 'MAQTA_FIRST', 'MAQTA_BODY']
+
+# Additional dataset metadata (not used by YOLO directly)
+dataset:
+  name: "quran_ayat_detection"
+  description: "Unified YOLO dataset for ayah marker and ayat line detection."
+  classes_file: "configs/classes_hafalan.txt"
+  img_size: 640
+  batch_size: 32
+  num_workers: 8
+
+paths:
+  root: "data/processed"
+  images: "datasets/data/processed/images_hafalan"
+  labels: "datasets/data/processed/labels_hafalan"

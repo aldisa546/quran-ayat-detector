@@ -50,10 +50,15 @@ augment:
 		--output-dir data/processed/augmented \
 		--samples-per-image 1
 
-train:
-	python3 src/training/train.py \
+train-tilawah:
+	python3 src/training/train_tilawah_object_detection.py \
 		--data-config configs/data.yaml \
 		--model-config configs/model.yaml
+
+train-hafalan:
+	python3 src/training/train_hafalan_object_detection.py \
+		--data-config configs/data_hafalan.yaml \
+		--model-config configs/model_hafalan.yaml
 
 evaluate:
 	python3 src/evaluation/evaluate.py \

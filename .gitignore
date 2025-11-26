@@ -16,4 +16,6 @@ venv
 data/processed/cropped_ayah_markers/
 data/processed/images/
 data/processed/labels/
+data/processed/labels_hafalan/
+data/processed/images_hafalan/
 data/processed/cropped_ayah_markers_cls/

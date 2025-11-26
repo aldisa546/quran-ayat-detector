@@ -1,0 +1,7 @@
+datasets/data/processed/images_hafalan/page_003.webp
+datasets/data/processed/images_hafalan/page_004.webp
+datasets/data/processed/images_hafalan/page_005.webp
+datasets/data/processed/images_hafalan/page_006.webp
+datasets/data/processed/images_hafalan/page_007.webp
+datasets/data/processed/images_hafalan/page_008.webp
+datasets/data/processed/images_hafalan/page_009.webp
