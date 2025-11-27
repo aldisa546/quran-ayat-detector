@@ -23,6 +23,9 @@ AYAH_PROJECT ?= experiments
 AYAH_RUN_NAME ?= ayah-classifier
 AYAH_FORCE_REBUILD ?=
 
+PORT=33067
+IP=80.188.223.202
+
 install:
 	pip install -r requirements.txt
 
@@ -79,17 +82,23 @@ download-images:
 		--config configs/variants.yaml \
 		--output-dir data/processed/images
 
-sync-labels-detection:
-	rsync -avz -e "ssh -p 33804" datasets/data/processed/labels/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/labels/
+sync-labels-tilawah-detection:
+	rsync -avz -e "ssh -p $(PORT)" datasets/data/processed/labels_tilawah/ root@$(IP):/workspace/quran-ayat-detector/datasets/data/processed/labels_tilawah/
 
-sync-images-detection:
-	rsync -avz -e "ssh -p 33804" datasets/data/processed/images/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/images/
+sync-images-tilawah-detection:
+	rsync -avz -e "ssh -p $(PORT)" datasets/data/processed/images/ root@$(IP):/workspace/quran-ayat-detector/datasets/data/processed/images/
+
+sync-labels-hafalan-detection:
+	rsync -avz -e "ssh -p $(PORT)" datasets/data/processed/labels_hafalan/ root@$(IP):/workspace/quran-ayat-detector/datasets/data/processed/labels_hafalan/
+
+sync-images-hafalan-detection:
+	rsync -avz -e "ssh -p $(PORT)" datasets/data/processed/images_hafalan/ root@$(IP):/workspace/quran-ayat-detector/datasets/data/processed/images_hafalan/
 
 sync-labels-cls-train:
-	rsync -avz -e "ssh -p 33804" datasets/data/processed/ayah_classifier_train/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/ayah_classifier_train/
+	rsync -avz -e "ssh -p $(PORT)" datasets/data/processed/ayah_classifier_train/ root@$(IP):/workspace/quran-ayat-detector/datasets/data/processed/ayah_classifier_train/
 
 sync-labels-cls-test:
-	rsync -avz -e "ssh -p 33804" datasets/data/processed/ayah_classifier_test/ root@80.188.223.202:/workspace/quran-ayat-detector/datasets/data/processed/ayah_classifier_test/
+	rsync -avz -e "ssh -p $(PORT)" datasets/data/processed/ayah_classifier_test/ root@$(IP):/workspace/quran-ayat-detector/datasets/data/processed/ayah_classifier_test/
 
 quality-control:
 	@if [ -z "$(QC_XML_DIR)" ]; then \

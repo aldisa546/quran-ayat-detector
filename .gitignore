@@ -14,6 +14,8 @@ venv
 *.heif
 *.heic
 datasets/data/processed/cropped_ayah_markers/
+datasets/data/raw
+datasets/data/processed/*.cached
 datasets/data/processed/images/
 datasets/data/processed/labels/
 datasets/data/processed/labels_hafalan/

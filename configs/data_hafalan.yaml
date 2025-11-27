@@ -1,15 +1,15 @@
 # YOLO dataset configuration
 # The 'path' field is the root directory for resolving relative paths in train/val/test files
-path: .
-train: datasets/data/splits/train_hafalan.txt
-val: datasets/data/splits/val_hafalan.txt
-test: datasets/data/splits/test_hafalan.txt
+path : .
+train: data/splits/train.txt
+val: data/splits/val.txt
+test: data/splits/test.txt
 
 # Number of classes
 nc: 3
 
 # Class names
-names: ['MAQTA_LAST', 'MAQTA_FIRST', 'MAQTA_BODY']
+names: ['MAQTA_BODY', 'MAQTA_FIRST', 'MAQTA_LAST']
 
 # Additional dataset metadata (not used by YOLO directly)
 dataset:
@@ -22,5 +22,5 @@ dataset:
 
 paths:
   root: "data/processed"
-  images: "datasets/data/processed/images_hafalan"
-  labels: "datasets/data/processed/labels_hafalan"
+  images: "datasets/data/processed/images"
+  labels: "datasets/data/processed/labels"

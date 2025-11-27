@@ -42,13 +42,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--data-config",
         type=Path,
-        default=Path("configs/data.yaml"),
+        default=Path("configs/data_tilawah.yaml"),
         help="Path to dataset configuration YAML.",
     )
     parser.add_argument(
         "--model-config",
         type=Path,
-        default=Path("configs/model.yaml"),
+        default=Path("configs/model_tilawah.yaml"),
         help="Path to model/training configuration YAML.",
     )
     parser.add_argument(
